@@ -4,10 +4,10 @@ import random, os, ctypes # These will be helpful modules to have!
 Root = "C:\\Users\\Kenny\\Pictures\\" # This is the root of the path...
 
 Theme_list = {
-	"Chess" : Root + "Chess",
-	"Philosophy" : Root + "Philosophy",
-	"Music" : Root + "Music",
-	"Math" : Root + "Math"
+	"Chess" : Root + "Chess\\",
+	"Philosophy" : Root + "Philosophy\\",
+	"Music" : Root + "Music\\",
+	"Math" : Root + "Math\\"
 }
 
 
@@ -33,5 +33,9 @@ while Valid_theme_chosen is False:
 			print("A theme has been chosen!")
 
 print("\n\nThe theme is: " + Elected_theme[0])
+print("\nAnd the folder contents are: ", Contents_list)#
+Chosen_Desktop_Image = random.choice(Contents_list)
+print("\nThe desktop will now be set to: ", Chosen_Desktop_Image)
+ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder+Chosen_Desktop_Image, 0)
 
 
