@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 import random, os, ctypes # These will be helpful modules to have!
 
+user32 = ctypes.windll.user32
+user32.SetProcessDPIAware()
+screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1) # This will be useful if we need to resize images...
+
+
 Root = "C:\\Users\\Kenny\\Pictures\\" # This is the root of the path...
 
 Theme_list = {
@@ -36,6 +41,6 @@ print("\n\nThe theme is: " + Elected_theme[0])
 print("\nAnd the folder contents are: ", Contents_list)#
 Chosen_Desktop_Image = random.choice(Contents_list)
 print("\nThe desktop will now be set to: ", Chosen_Desktop_Image)
-ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder+Chosen_Desktop_Image, 0)
+ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image, 0)
 
 
