@@ -1,7 +1,7 @@
 import ctypes
 from PIL import Image
 
-image =Image.open('C:\\Users\\Kenny\\Desktop\\e5 Let the Bishop out!.jpg') # Just opening a file that I have on my desktop... this can be changed...
+image = Image.open('C:\\Users\\Kenny\\Desktop\\e5 Let the Bishop out!.jpg') # Just opening a file that I have on my desktop... this can be changed...
 print("The image has a size of: ", image.size)
 resized_image = image.resize((1080, 1080)) # The height of my screen in pixels... the image is square, so I'm simply increasing its size so that it fits my screen fully
 Desktop_background = Image.open('C:\\Users\\Kenny\\Desktop\\Grey Desktop Background Template.jpg')
