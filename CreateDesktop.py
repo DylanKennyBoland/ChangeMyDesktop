@@ -7,18 +7,20 @@ from PIL import Image # Our function will need the methods inside this module or
 def CreateDesktopImage(DesktopImage, DesktopDimensions, BackgroundTemplate, Location):
     BackgroundTemplate = BackgroundTemplate.resize((1920, 1080))
     ResizedImage = DesktopImage.resize((DesktopDimensions[1], DesktopDimensions[1]))
-    if Location == "Centre":
+    if Location in ['Centre', 'centre', 'C', 'c']:
         # In the centre of the desktop... with a nice jet-black background...
         # The x-coordinate will be found by taking the width of the resized image and subtracting it from that of the 
         # background template - the resultant value will then be halved... the y-coordinate is calculated in much the same way
         # except we take the heights of the resized image and background template instead of the width...
         # The int() function is changing the data type from 'float' to 'int'... sometimes referred to as 'type casting' or 'type conversion'...
         PasteLocation = (int((BackgroundTemplate.width - ResizedImage.width)/2), int((BackgroundTemplate.height - ResizedImage.height)/2))#
-    if Location == "RightSide":
+    elif Location in ['right-hand side', 'right side', 'RightSide', 'Right', 'right', 'R', 'r']:
         PasteLocation = (int((BackgroundTemplate.width - ResizedImage.width)), int((BackgroundTemplate.height - ResizedImage.height)))
-    # An 'else' condition would need to be placed here to catch erroneous inputs, and to make the function more robust... but we're simply
-    # testing out some ideas and we know what the function expects, so I'll leave this addition for later...
-    
+    elif Location in ['left-hand side', 'left side', 'LeftSide', 'Left', 'left', 'L', 'l']:
+        PasteLocation = (0, 0)
+    else:
+        print("ERROR: An invalid value was given for the 'Location' argument.")
+        return -1
     # Now we'll perform the pasting of the resized image onto the background template:
     BackgroundTemplate.paste(ResizedImage, PasteLocation)
     FinishedDesktopImage = BackgroundTemplate
@@ -30,9 +32,12 @@ BackgroundTemplate = Image.open('C:\\Users\\Kenny\\Desktop\\Black Desktop Backgr
 # The dimensions of our desktop...
 Dimensions = (1920, 1080)
 # Now let's test out the function...
-NewDesktopImage = CreateDesktopImage(DesktopImage, Dimensions, BackgroundTemplate, "Centre")
-print("The new image has a size of: ", NewDesktopImage.size)
+NewDesktopImage = CreateDesktopImage(DesktopImage, Dimensions, BackgroundTemplate, "R")
 
+if NewDesktopImage == -1: # Checking if we got an error return code...
+    exit()
+
+print("The new image has a size of: ", NewDesktopImage.size)
 # When we create a new desktop image from one which was not the correct size, we want to retain its name but add on a tag to say
 # that it was resized and formatted - that's what we'll do below! os.path.splitext(file_name) will take the just the name
 # of a file, and leave out the extension (.jpg for image files)...
