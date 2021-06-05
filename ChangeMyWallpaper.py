@@ -3,7 +3,7 @@ import random, os, ctypes # These will be helpful modules to have!
 from PIL import Image # Our function will need the methods inside this module or library...
 
 def CreateDesktopImage(DesktopImage, DesktopDimensions, BackgroundTemplate, Location):
-    BackgroundTemplate = BackgroundTemplate.resize((1920, 1080))
+    BackgroundTemplate = BackgroundTemplate.resize(DesktopDimensions)
     ResizedImage = DesktopImage.resize((DesktopDimensions[1], DesktopDimensions[1]))
     if Location in ['Centre', 'centre', 'C', 'c']:
         # In the centre of the desktop... with a nice jet-black background...
@@ -66,11 +66,11 @@ while Valid_theme_chosen is False:
 # folder contains...
 print("\n\nThe theme is: " + Elected_theme[0])
 print("\nAnd the folder contents are: ", Contents_list)
-Chosen_Desktop_Image_Name = random.choice(Contents_list)
-print("\nThe new desktop image will be: ", Chosen_Desktop_Image_Name)
+Chosen_Desktop_Image = random.choice(Contents_list)
+print("\nThe new desktop image will be: ", Chosen_Desktop_Image)
 
 # Now we'll check if we need to resize or format the chosen image (perhaps it's not the correct size or shape)...
-Desktop_Image_Object = Image.open(Path_to_folder + Chosen_Desktop_Image_Name)
+Desktop_Image_Object = Image.open(Path_to_folder + Chosen_Desktop_Image)
 print("The desktop image has the following size: ", Desktop_Image_Object.size)
 
 Image_aspect_ratio = Desktop_Image_Object.width/Desktop_Image_Object.height
@@ -79,17 +79,24 @@ print("The image has an aspect ratio of: ", Image_aspect_ratio)
 if (Image_aspect_ratio < 1.1) and (Image_aspect_ratio > 0.98):
 	print("The image is more or less a square, as it has an aspect ratio near 1...")
 	print("Going to attempt to resize and format the image...")
-	BackgroundTemplate = Image.open('C:\\Users\\Kenny\\Desktop\\Black Desktop Background Template.jpg')
-	NewDesktopImage = CreateDesktopImage(Desktop_Image_Object, screensize, BackgroundTemplate, "R")
-	print("The reformatted image has a size of: ", NewDesktopImage.size)
-	NewDesktopImage_FileName = os.path.splitext(Chosen_Desktop_Image_Name)[0] + " " + "Resized and Formatted.jpg"
-	print("The new desktop image is called: ", NewDesktopImage_FileName)
-	NewDesktopImage.save(Path_to_folder + NewDesktopImage_FileName) # Saving our new desktop image...
-	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + NewDesktopImage_FileName, 0)
-
+	print("First going to check if it's been resized and reformatted already before...")
+	if os.path.isfile(Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg"):
+		print("The image has already been resized...")
+		print("Setting the resized version as the desktop...")
+		NewDesktopImage_FileName = os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg"
+		ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + NewDesktopImage_FileName, 0)
+	else:
+		print("The image has not been resized... doing so now")
+		BackgroundTemplate = Image.open('C:\\Users\\Kenny\\Desktop\\Black Desktop Background Template.jpg')
+		NewDesktopImage = CreateDesktopImage(Desktop_Image_Object, screensize, BackgroundTemplate, "R")
+		print("The resized and reformatted image has a size of: ", NewDesktopImage.size)
+		NewDesktopImage_FileName = os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg"
+		NewDesktopImage.save(Path_to_folder + NewDesktopImage_FileName) # Saving our new desktop image...
+		print("Saving", NewDesktopImage_FileName)
+		ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + NewDesktopImage_FileName, 0)
 elif (Image_aspect_ratio > 1.7) and (Image_aspect_ratio < 1.8):
 	print("The image is in the shape of the desktop screen, as its aspect ratio is approximately 16:9")
-	print("Setting the desktop to be: ", Chosen_Desktop_Image_Name)
-	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image_Name, 0)
+	print("Setting the desktop to be: ", Chosen_Desktop_Image)
+	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image, 0)
 else:
-	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image_Name, 0)
+	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image, 0)
