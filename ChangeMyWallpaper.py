@@ -91,7 +91,7 @@ if (Image_aspect_ratio < 1.1) and (Image_aspect_ratio > 0.98):
 	if os.path.isfile(Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg"):
 		print("- The image has already been resized...")
 		print("- Setting the resized version as the desktop...")
-		ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg", 0)
+		ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg", 1)
 	else:
 		print("- The image has not been resized... doing so now")
 		BackgroundTemplate = Image.open('C:\\Users\\Kenny\\Desktop\\Black Desktop Background Template.jpg')
@@ -99,11 +99,11 @@ if (Image_aspect_ratio < 1.1) and (Image_aspect_ratio > 0.98):
 		print("- The resized and reformatted image has a size of: ", NewDesktopImage.size)
 		NewDesktopImage.save(Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg") # Saving our new desktop image...
 		print("INFO: Saving" + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg" + "...")
-		ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg", 0)
+		ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg", 1)
 elif (Image_aspect_ratio > 1.7) and (Image_aspect_ratio < 1.8):
 	print("- The image is in the shape of the desktop screen, as its aspect ratio is approximately 16:9")
 	print("- Setting the desktop to be: ", Chosen_Desktop_Image)
-	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image, 0)
+	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image, 1)
 else:
 	print("INFO: Setting the new desktop image now...")
-	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image, 0)
+	ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + Chosen_Desktop_Image, 1)
