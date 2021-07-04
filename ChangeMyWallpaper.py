@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import random, os, ctypes # These will be helpful modules to have!
+import random, os, ctypes, json # These will be helpful modules to have!
 from PIL import Image # Our function will need the methods inside this module or library...
 
 def CreateDesktopImage(DesktopImage, DesktopDimensions, BackgroundTemplate, Location):
@@ -33,29 +33,42 @@ screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1) # This will 
 
 Root = "C:\\Users\\Kenny\\Pictures\\" # This is the root of the path...
 
-Theme_list = {
-	"Chess" : Root + "Chess\\",
-	"Philosophy" : Root + "Philosophy\\",
-	"Music" : Root + "Music\\",
-	"Math" : Root + "Math\\"
-}
+with open('Themes.json') as p:
+	try:
+		Theme_list = json.load(p)
+	except:
+		print("The themes.json file seems to be empty...")
+		Theme_list = {
+			"Chess" : {"Path to Folder": "C:\\Users\\Kenny\\Pictures\\Chess\\",
+			"Last Image Chosen": "None"},
+			"Philosophy": {"Path to Folder": "C:\\Users\\Kenny\\Pictures\\Philosophy\\",
+			"Last Image Chosen": "None"},
+			"Math" : {"Path to Folder": "C:\\Users\\Kenny\\Pictures\\Maths\\",
+			"Last Image Chosen": "None"},
+			"Music" : {"Path to Folder": "C:\\Users\\Kenny\\Pictures\\Music\\",
+			"Last Image Chosen": "None"}
+		}
 
+# Theme_list = {
+# 	"Chess" : Root + "Chess\\",
+# 	"Philosophy" : Root + "Philosophy\\",
+# 	"Music" : Root + "Music\\",
+# 	"Math" : Root + "Math\\"
+# }
 
 Valid_theme_chosen = False
 
 while Valid_theme_chosen is False:
 	Elected_theme = random.choice(list(Theme_list.items())) # 'Randomly' pick a theme from the collection...
-	Path_to_folder = Elected_theme[1] # This new assignment isn't too necessary, but it improves readability
+	print(type(Elected_theme))
+	Path_to_folder = Elected_theme[1]["Path to Folder"] # This new assignment isn't too necessary, but it improves readability
 	# which I feel is an important idea to keep in mind - I want strangers or anybody to easily read and understand
 	# what's going on... what's happening...
 	print(Path_to_folder)
 	if len(os.listdir(Path_to_folder)) == 0:
 		continue
 	else:
-		Contents_list = os.listdir(Path_to_folder)
-		for item in Contents_list:
-			if not item.endswith((".jpg", ".JPG")):
-				Contents_list.remove(item)
+		Contents_list = [file for file in os.listdir(Path_to_folder) if file.endswith((".jpg", ".JPG"))]
 		if len(Contents_list) == 0:
 			continue
 		else:
@@ -82,7 +95,8 @@ print("INFO: The image has an aspect ratio of: ", Image_aspect_ratio)
 # The two print statements below are merely to box off the information being printed to
 # the screen... hopefully making it appear less cluttered...
 print("\n===========================================================================")
-print("\n===========================================================================\n")
+print("                         Checking the Image's Size							")
+print("===========================================================================\n")
 
 if (Image_aspect_ratio < 1.1) and (Image_aspect_ratio > 0.98):
 	print("INFO: The image is more or less a square, as it has an aspect ratio near 1...")
@@ -98,7 +112,7 @@ if (Image_aspect_ratio < 1.1) and (Image_aspect_ratio > 0.98):
 		NewDesktopImage = CreateDesktopImage(Desktop_Image_Object, screensize, BackgroundTemplate, "R")
 		print("- The resized and reformatted image has a size of: ", NewDesktopImage.size)
 		NewDesktopImage.save(Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg") # Saving our new desktop image...
-		print("INFO: Saving" + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg" + "...")
+		print("INFO: Saving " + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg" + "...")
 		ctypes.windll.user32.SystemParametersInfoW(20, 0, Path_to_folder + os.path.splitext(Chosen_Desktop_Image)[0] + " " + "Resized and Formatted.jpg", 1)
 elif (Image_aspect_ratio > 1.7) and (Image_aspect_ratio < 1.8):
 	print("- The image is in the shape of the desktop screen, as its aspect ratio is approximately 16:9")
