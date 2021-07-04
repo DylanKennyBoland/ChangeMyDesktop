@@ -1,0 +1,18 @@
+{
+	"Chess" : {
+        "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Chess\\",
+		"Last Image Chosen": "None"
+    },
+	"Philosophy" : {
+        "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Philosophy\\",
+		"Last Image Chosen": "None"
+    },
+	"Math" : {
+        "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Maths\\",
+		"Last Image Chosen": "None"
+    },
+	"Music" : {
+        "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Music\\",
+		"Last Image Chosen": "None"
+    }
+}
