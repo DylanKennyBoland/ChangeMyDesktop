@@ -1,18 +1,18 @@
 {
-	"Chess" : {
+    "Chess": {
         "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Chess\\",
-		"Last Image Chosen": "None"
+        "Last Image Chosen": "Forget about the bloody pawn! Rc7 and Black is busted!.JPG"
     },
-	"Philosophy" : {
+    "Philosophy": {
         "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Philosophy\\",
-		"Last Image Chosen": "None"
+        "Last Image Chosen": "None"
     },
-	"Math" : {
-        "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Maths\\",
-		"Last Image Chosen": "None"
+    "Math": {
+        "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Math\\",
+        "Last Image Chosen": "None"
     },
-	"Music" : {
+    "Music": {
         "Path to Folder": "C:\\Users\\Kenny\\Pictures\\Music\\",
-		"Last Image Chosen": "None"
+        "Last Image Chosen": "None"
     }
 }

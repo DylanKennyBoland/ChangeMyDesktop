@@ -35,6 +35,7 @@ Root = "C:\\Users\\Kenny\\Pictures\\" # This is the root of the path...
 
 with open('Themes.json') as p:
 	try:
+		print("Reading in themes.json file...")
 		Theme_list = json.load(p)
 	except:
 		print("The themes.json file seems to be empty...")
@@ -57,18 +58,23 @@ with open('Themes.json') as p:
 # }
 
 Valid_theme_chosen = False
+print(Theme_list)
+print(type(Theme_list))
 
 while Valid_theme_chosen is False:
 	Elected_theme = random.choice(list(Theme_list.items())) # 'Randomly' pick a theme from the collection...
-	print(type(Elected_theme))
+	print(Elected_theme)
 	Path_to_folder = Elected_theme[1]["Path to Folder"] # This new assignment isn't too necessary, but it improves readability
 	# which I feel is an important idea to keep in mind - I want strangers or anybody to easily read and understand
 	# what's going on... what's happening...
 	print(Path_to_folder)
+	print("The last image chosen for {} is {}".format(Elected_theme[0], Elected_theme[1]["Last Image Chosen"]))
 	if len(os.listdir(Path_to_folder)) == 0:
 		continue
 	else:
 		Contents_list = [file for file in os.listdir(Path_to_folder) if file.endswith((".jpg", ".JPG"))]
+		if Elected_theme[1]["Last Image Chosen"] in Contents_list:
+			Contents_list.remove(Elected_theme[1]["Last Image Chosen"])
 		if len(Contents_list) == 0:
 			continue
 		else:
@@ -84,6 +90,13 @@ print("\n\nThe theme is: " + Elected_theme[0])
 print("\n...And the folder contents are: ", Contents_list)
 Chosen_Desktop_Image = random.choice(Contents_list)
 print("\nThe new desktop image will be: " + Chosen_Desktop_Image)
+
+# Let's update the themes.json file...
+Elected_theme[1]["Last Image Chosen"] = Chosen_Desktop_Image
+Theme_list[Elected_theme[0]] = Elected_theme[1]
+
+with open('Themes.json', 'w+') as p:
+	json.dump(Theme_list, p, indent=4)
 
 # Now we'll check if we need to resize or format the chosen image (perhaps it's not the correct size or shape)...
 Desktop_Image_Object = Image.open(Path_to_folder + Chosen_Desktop_Image)
